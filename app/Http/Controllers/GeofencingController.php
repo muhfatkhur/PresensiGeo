@@ -24,7 +24,7 @@ class GeofencingController extends Controller
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
             'radius_meter' => 'required|integer|min:10|max:1000',
-            'jam_tutup_absensi' => 'required'
+            'batas_tepat_waktu' => 'required'
         ]);
 
         Geofencing::updateOrCreate(
@@ -33,7 +33,7 @@ class GeofencingController extends Controller
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
                 'radius_meter' => $request->radius_meter,
-                'jam_tutup_absensi' => $request->jam_tutup_absensi
+                'batas_tepat_waktu' => $request->batas_tepat_waktu
             ]
         );
 
