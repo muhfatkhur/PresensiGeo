@@ -18,19 +18,31 @@ class AdminDashboardController extends Controller
 
         $hadirSiswa = Presensi::whereHas('user', function($q) {
             $q->where('role', 'siswa');
-        })->where('tanggal', $hariIni)->whereIn('status', ['hadir', 'tepat waktu'])->count();
+        })->where('tanggal', $hariIni)
+          ->where('status', 'hadir')
+          ->where('keterangan', 'Tepat Waktu')
+          ->count();
 
         $hadirGuru = Presensi::whereHas('user', function($q) {
             $q->where('role', 'guru');
-        })->where('tanggal', $hariIni)->whereIn('status', ['hadir', 'tepat waktu'])->count();
+        })->where('tanggal', $hariIni)
+          ->where('status', 'hadir')
+          ->where('keterangan', 'Tepat Waktu')
+          ->count();
 
         $terlambatSiswa = Presensi::whereHas('user', function($q) {
             $q->where('role', 'siswa');
-        })->where('tanggal', $hariIni)->where('status', 'terlambat')->count();
+        })->where('tanggal', $hariIni)
+          ->where('status', 'hadir')
+          ->where('keterangan', 'Terlambat')
+          ->count();
 
         $terlambatGuru = Presensi::whereHas('user', function($q) {
             $q->where('role', 'guru');
-        })->where('tanggal', $hariIni)->where('status', 'terlambat')->count();
+        })->where('tanggal', $hariIni)
+          ->where('status', 'hadir')
+          ->where('keterangan', 'Terlambat')
+          ->count();
 
         $tidakHadirSiswa = Presensi::whereHas('user', function($q) {
             $q->where('role', 'siswa');
@@ -61,7 +73,7 @@ class AdminDashboardController extends Controller
 
                 $radius = $geofencing ? $geofencing->radius_meter : 50;
 
-                if (in_array(strtolower($item->status), ['hadir', 'tepat waktu'])) {
+                if (strtolower($item->status) === 'hadir') {
                     $jarakTeks = $item->jarak_meter . ' Meter';
                     $statusRadius = $item->jarak_meter <= $radius ? 'sah' : 'luar_radius';
                     $statusKehadiran = $item->keterangan ?? 'Tepat Waktu';
